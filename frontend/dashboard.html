@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Marks Manager</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-page">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <a href="dashboard.html" class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+
+            <span>Marks Manager</span>
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-item active">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="add-student.html" class="nav-item">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+            </a>
+
+            <a href="enter-marks.html" class="nav-item">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>Enter Marks</span>
+            </a>
+
+            <a href="students.html" class="nav-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Student List</span>
+            </a>
+
+            <a href="results.html" class="nav-item">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+            </a>
+
+        </nav>
+
+        <button id="logoutBtn" class="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </button>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <!-- Top Bar -->
+        <header class="dashboard-header">
+
+            <div>
+                <p class="header-date">ACADEMIC MANAGEMENT PORTAL</p>
+
+                <h1>
+                    Welcome, <span id="teacherName">Teacher</span> 👋
+                </h1>
+
+                <p class="header-subtitle">
+                    Here's an overview of your students and their performance.
+                </p>
+            </div>
+
+            <div class="header-profile">
+                <div class="profile-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div>
+                    <strong>Teacher</strong>
+                    <span>Administrator</span>
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- Statistics -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon students-icon">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+
+                <div>
+                    <p>Total Students</p>
+                    <h2 id="totalStudents">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon average-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+
+                <div>
+                    <p>Average Percentage</p>
+                    <h2 id="averagePercentage">0%</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon pass-icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <div>
+                    <p>Passed Students</p>
+                    <h2 id="passedStudents">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon fail-icon">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+
+                <div>
+                    <p>Failed Students</p>
+                    <h2 id="failedStudents">0</h2>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- Dashboard Content -->
+        <section class="dashboard-content">
+
+            <!-- Performance Section -->
+            <div class="dashboard-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <p class="section-tag">PERFORMANCE OVERVIEW</p>
+                        <h2>Student Performance</h2>
+                    </div>
+
+                    <i class="fa-solid fa-chart-column panel-header-icon"></i>
+                </div>
+
+                <div class="chart-placeholder">
+                    <div class="chart-bar" style="height: 55%;"></div>
+                    <div class="chart-bar" style="height: 75%;"></div>
+                    <div class="chart-bar" style="height: 65%;"></div>
+                    <div class="chart-bar" style="height: 90%;"></div>
+                    <div class="chart-bar" style="height: 80%;"></div>
+                    <div class="chart-bar" style="height: 70%;"></div>
+                    <div class="chart-bar" style="height: 85%;"></div>
+                </div>
+
+                <div class="chart-labels">
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                    <span>Sun</span>
+                </div>
+
+            </div>
+
+
+            <!-- Quick Actions -->
+            <div class="dashboard-panel quick-actions">
+
+                <div class="panel-header">
+                    <div>
+                        <p class="section-tag">QUICK ACTIONS</p>
+                        <h2>Manage Students</h2>
+                    </div>
+                </div>
+
+                <a href="add-student.html" class="quick-action">
+                    <div class="quick-icon">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+
+                    <div>
+                        <strong>Add Student</strong>
+                        <span>Create a new student record</span>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+
+                <a href="enter-marks.html" class="quick-action">
+                    <div class="quick-icon">
+                        <i class="fa-solid fa-pen"></i>
+                    </div>
+
+                    <div>
+                        <strong>Enter Marks</strong>
+                        <span>Add or update student marks</span>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+
+                <a href="students.html" class="quick-action">
+                    <div class="quick-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div>
+                        <strong>Student List</strong>
+                        <span>View and manage student records</span>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/dashboard.js"></script>
+
+</body>
+
+</html>

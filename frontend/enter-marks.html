@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Enter Marks | Marks Manager</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-page">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <a href="dashboard.html" class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <span>Marks Manager</span>
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="add-student.html" class="nav-item">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+            </a>
+
+            <a href="enter-marks.html" class="nav-item active">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>Enter Marks</span>
+            </a>
+
+            <a href="students.html" class="nav-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Student List</span>
+            </a>
+
+            <a href="results.html" class="nav-item">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+            </a>
+
+        </nav>
+
+        <button id="logoutBtn" class="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </button>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="page-header">
+            <p class="header-date">ACADEMIC MANAGEMENT</p>
+            <h1>Enter Student Marks</h1>
+            <p class="header-subtitle">
+                Select a student and enter marks for each subject.
+            </p>
+        </header>
+
+
+        <section class="marks-card">
+
+            <div class="panel-header">
+                <div>
+                    <p class="section-tag">MARKS ENTRY</p>
+                    <h2>Academic Performance</h2>
+                </div>
+
+                <i class="fa-solid fa-pen-to-square panel-header-icon"></i>
+            </div>
+
+
+            <form id="marksForm">
+
+                <!-- Student Selection -->
+                <div class="form-group student-select-group">
+                    <label for="studentSelect">Select Student</label>
+
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user-graduate"></i>
+
+                        <select id="studentSelect" required>
+                            <option value="">-- Select a Student --</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- Subject Marks -->
+                <div class="marks-grid">
+
+                    <div class="form-group">
+                        <label for="subject1">Mathematics</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-calculator"></i>
+                            <input type="number" id="subject1"
+                                min="0" max="100"
+                                placeholder="0 - 100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject2">Physics</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-atom"></i>
+                            <input type="number" id="subject2"
+                                min="0" max="100"
+                                placeholder="0 - 100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject3">Chemistry</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-flask"></i>
+                            <input type="number" id="subject3"
+                                min="0" max="100"
+                                placeholder="0 - 100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject4">Computer Science</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-laptop-code"></i>
+                            <input type="number" id="subject4"
+                                min="0" max="100"
+                                placeholder="0 - 100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject5">English</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-book-open"></i>
+                            <input type="number" id="subject5"
+                                min="0" max="100"
+                                placeholder="0 - 100" required>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Calculated Result -->
+                <div class="calculation-grid">
+
+                    <div class="calculation-box">
+                        <span>Total Marks</span>
+                        <strong id="totalMarks">0 / 500</strong>
+                    </div>
+
+                    <div class="calculation-box">
+                        <span>Average</span>
+                        <strong id="averageMarks">0.00</strong>
+                    </div>
+
+                    <div class="calculation-box">
+                        <span>Percentage</span>
+                        <strong id="percentageMarks">0.00%</strong>
+                    </div>
+
+                    <div class="calculation-box result-box">
+                        <span>Result</span>
+                        <strong id="resultStatus">-</strong>
+                    </div>
+
+                </div>
+
+
+                <p id="marksMessage" class="form-message"></p>
+
+
+                <div class="form-actions">
+
+                    <button type="reset" id="resetMarksBtn" class="reset-btn">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Clear
+                    </button>
+
+                    <button type="submit"
+                        class="login-submit-btn add-student-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save Marks
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script src="js/enter-marks.js"></script>
+
+</body>
+
+</html>

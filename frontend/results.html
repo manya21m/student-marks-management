@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Results | Marks Manager</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body class="dashboard-page">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <a href="dashboard.html" class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+
+            <span>Marks Manager</span>
+        </a>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="add-student.html" class="nav-item">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+            </a>
+
+            <a href="enter-marks.html" class="nav-item">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>Enter Marks</span>
+            </a>
+
+            <a href="students.html" class="nav-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Student List</span>
+            </a>
+
+            <a href="results.html" class="nav-item active">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+            </a>
+
+        </nav>
+
+
+        <button id="logoutBtn" class="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </button>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="dashboard-main">
+
+        <!-- PAGE HEADER -->
+        <header class="page-header">
+
+            <p class="header-date">ACADEMIC PERFORMANCE</p>
+
+            <h1>Student Results</h1>
+
+            <p class="header-subtitle">
+                View the complete academic performance of all students.
+            </p>
+
+        </header>
+
+
+        <!-- RESULTS SECTION -->
+        <section class="results-card">
+
+            <!-- RESULTS TOP BAR -->
+            <div class="students-top-bar">
+
+                <div>
+                    <p class="section-tag">RESULTS</p>
+                    <h2>Academic Records</h2>
+                </div>
+
+
+                <!-- SEARCH + DOWNLOAD -->
+                <div class="results-actions">
+
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="text"
+                            id="searchResultInput"
+                            placeholder="Search by name or USN">
+                    </div>
+
+
+                    <button
+                        id="downloadResultsBtn"
+                        class="download-results-btn">
+
+                        <i class="fa-solid fa-file-pdf"></i>
+                        Download PDF
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULTS TABLE -->
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>USN</th>
+                            <th>Maths</th>
+                            <th>Physics</th>
+                            <th>Chemistry</th>
+                            <th>Computer</th>
+                            <th>English</th>
+                            <th>Total</th>
+                            <th>Average</th>
+                            <th>Percentage</th>
+                            <th>Grade</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody id="resultsTableBody">
+                        <!-- Results loaded by JavaScript -->
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- EMPTY / LOADING MESSAGE -->
+            <p id="resultsEmptyMessage" class="empty-message">
+                Loading results...
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- PDF LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+
+    <!-- RESULTS JAVASCRIPT -->
+    <script src="js/results.js"></script>
+
+</body>
+
+</html>

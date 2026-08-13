@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Student | Marks Manager</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-page">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <a href="dashboard.html" class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <span>Marks Manager</span>
+        </a>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="add-student.html" class="nav-item active">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Add Student</span>
+            </a>
+
+            <a href="enter-marks.html" class="nav-item">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>Enter Marks</span>
+            </a>
+
+            <a href="students.html" class="nav-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Student List</span>
+            </a>
+
+            <a href="results.html" class="nav-item">
+                <i class="fa-solid fa-square-poll-vertical"></i>
+                <span>Results</span>
+            </a>
+
+        </nav>
+
+        <button id="logoutBtn" class="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </button>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="page-header">
+            <p class="header-date">STUDENT MANAGEMENT</p>
+            <h1>Add New Student</h1>
+            <p class="header-subtitle">
+                Create a new student record by entering the details below.
+            </p>
+        </header>
+
+        <section class="student-form-card">
+
+            <div class="panel-header">
+                <div>
+                    <p class="section-tag">STUDENT INFORMATION</p>
+                    <h2>Personal & Academic Details</h2>
+                </div>
+
+                <i class="fa-solid fa-user-plus panel-header-icon"></i>
+            </div>
+
+            <form id="studentForm">
+
+                <div class="student-form-grid">
+
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" id="name"
+                                placeholder="Enter student's full name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="usn">USN</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-id-card"></i>
+                            <input type="text" id="usn"
+                                placeholder="Example: 1AB23CS001" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" id="email"
+                                placeholder="student@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-phone"></i>
+                            <input type="tel" id="phone"
+                                placeholder="Enter phone number" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course">Course</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-book"></i>
+                            <input type="text" id="course"
+                                placeholder="Example: B.E." required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="branch">Branch</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-code"></i>
+                            <input type="text" id="branch"
+                                placeholder="Example: CSE" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="semester">Semester</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-calendar"></i>
+                            <input type="number" id="semester"
+                                min="1" max="8" placeholder="1 - 8" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="section">Section</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <input type="text" id="section"
+                                placeholder="Example: A" maxlength="1" required>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p id="studentMessage" class="form-message"></p>
+
+                <div class="form-actions">
+                    <button type="reset" class="reset-btn">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Clear Form
+                    </button>
+
+                    <button type="submit" class="login-submit-btn add-student-btn">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Add Student
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script src="js/add-student.js"></script>
+
+</body>
+
+</html>
