@@ -15,8 +15,8 @@ togglePassword.addEventListener("click", () => {
         : '<i class="fa-solid fa-eye"></i>';
 });
 
-// Handle login
-loginForm.addEventListener("submit", async (event) => {
+// Handle demo login
+loginForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const username = usernameInput.value.trim();
@@ -26,42 +26,22 @@ loginForm.addEventListener("submit", async (event) => {
     loginMessage.textContent = "";
     loginMessage.classList.remove("success");
 
-    try {
-        const response = await fetch("/api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username,
-                password
-            })
-        });
+    // Demo credentials
+    if (username === "teacher" && password === "1234") {
+        loginMessage.textContent = "Login successful! Redirecting...";
+        loginMessage.classList.add("success");
 
-        const data = await response.json();
+        // Save login state
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("teacherName", "teacher");
 
-        if (response.ok && data.success) {
-            loginMessage.textContent = "Login successful! Redirecting...";
-            loginMessage.classList.add("success");
+        // Redirect to dashboard
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 800);
 
-            // Save login state
-            sessionStorage.setItem("isLoggedIn", "true");
-            sessionStorage.setItem("teacherName", data.user.username);
-
-            // Redirect to dashboard
-            setTimeout(() => {
-                window.location.href = "dashboard.html";
-            }, 800);
-
-        } else {
-            loginMessage.textContent =
-                data.message || "Login failed. Please try again.";
-        }
-
-    } catch (error) {
+    } else {
         loginMessage.textContent =
-            "Unable to connect to the server. Please try again.";
-
-        console.error(error);
+            "Invalid username or password. Please try again.";
     }
 });
