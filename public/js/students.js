@@ -3,17 +3,17 @@ if (sessionStorage.getItem("isLoggedIn") !== "true") {
     window.location.href = "login.html";
 }
 
-
 // Logout
 const logoutBtn = document.getElementById("logoutBtn");
 
-logoutBtn.addEventListener("click", () => {
-    sessionStorage.removeItem("isLoggedIn");
-    sessionStorage.removeItem("teacherName");
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+        sessionStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("teacherName");
 
-    window.location.href = "index.html";
-});
-
+        window.location.href = "index.html";
+    });
+}
 
 // Elements
 const studentsTableBody = document.getElementById("studentsTableBody");
@@ -22,32 +22,15 @@ const emptyMessage = document.getElementById("emptyMessage");
 
 let students = [];
 
+// Load students from localStorage
+function loadStudents() {
+    students = JSON.parse(localStorage.getItem("students")) || [];
 
-// Load all students
-async function loadStudents() {
-    try {
-        const response = await fetch("/api/students");
-
-        if (!response.ok) {
-            throw new Error("Failed to load students");
-        }
-
-        students = await response.json();
-
-        displayStudents(students);
-
-    } catch (error) {
-        console.error("Error loading students:", error);
-
-        emptyMessage.textContent =
-            "Unable to load students. Please check the server.";
-    }
+    displayStudents(students);
 }
-
 
 // Display students in table
 function displayStudents(studentList) {
-
     studentsTableBody.innerHTML = "";
 
     if (studentList.length === 0) {
@@ -82,7 +65,6 @@ function displayStudents(studentList) {
     });
 }
 
-
 // Search students
 searchInput.addEventListener("input", () => {
     const searchText = searchInput.value.toLowerCase().trim();
@@ -97,10 +79,8 @@ searchInput.addEventListener("input", () => {
     displayStudents(filteredStudents);
 });
 
-
-// Delete student
-async function deleteStudent(id) {
-
+// Delete student from localStorage
+function deleteStudent(id) {
     const confirmed = confirm(
         "Are you sure you want to delete this student?"
     );
@@ -109,29 +89,16 @@ async function deleteStudent(id) {
         return;
     }
 
-    try {
-        const response = await fetch(`/api/students/${id}`, {
-            method: "DELETE"
-        });
+    students = students.filter((student) => student.id !== id);
 
-        const data = await response.json();
+    // Save updated list
+    localStorage.setItem("students", JSON.stringify(students));
 
-        if (response.ok) {
-            alert(data.message || "Student deleted successfully!");
+    alert("Student deleted successfully!");
 
-            // Reload student list
-            loadStudents();
-
-        } else {
-            alert(data.error || "Failed to delete student.");
-        }
-
-    } catch (error) {
-        console.error("Error deleting student:", error);
-        alert("Unable to connect to the server.");
-    }
+    // Refresh table
+    displayStudents(students);
 }
-
 
 // Load students when page opens
 loadStudents();

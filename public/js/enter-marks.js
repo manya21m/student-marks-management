@@ -3,17 +3,17 @@ if (sessionStorage.getItem("isLoggedIn") !== "true") {
     window.location.href = "login.html";
 }
 
-
 // Logout
 const logoutBtn = document.getElementById("logoutBtn");
 
-logoutBtn.addEventListener("click", () => {
-    sessionStorage.removeItem("isLoggedIn");
-    sessionStorage.removeItem("teacherName");
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+        sessionStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("teacherName");
 
-    window.location.href = "index.html";
-});
-
+        window.location.href = "index.html";
+    });
+}
 
 // Get elements
 const marksForm = document.getElementById("marksForm");
@@ -33,35 +33,28 @@ const averageMarksElement = document.getElementById("averageMarks");
 const percentageMarksElement = document.getElementById("percentageMarks");
 const resultStatusElement = document.getElementById("resultStatus");
 
+// Load students from localStorage
+function loadStudents() {
+    const students = JSON.parse(localStorage.getItem("students")) || [];
 
-// Load students into dropdown
-async function loadStudents() {
-    try {
-        const response = await fetch("/api/students");
+    // Keep the default option
+    studentSelect.innerHTML = '<option value="">Select a student</option>';
 
-        if (!response.ok) {
-            throw new Error("Failed to load students");
-        }
-
-        const students = await response.json();
-
-        students.forEach((student) => {
-            const option = document.createElement("option");
-
-            option.value = student.id;
-            option.textContent = `${student.name} (${student.usn})`;
-
-            studentSelect.appendChild(option);
-        });
-
-    } catch (error) {
-        console.error("Error loading students:", error);
-
+    if (students.length === 0) {
         marksMessage.textContent =
-            "Unable to load students. Please check the server.";
+            "No students found. Please add a student first.";
+        return;
     }
-}
 
+    students.forEach((student) => {
+        const option = document.createElement("option");
+
+        option.value = student.id;
+        option.textContent = `${student.name} (${student.usn})`;
+
+        studentSelect.appendChild(option);
+    });
+}
 
 // Calculate marks automatically
 function calculateMarks() {
@@ -93,31 +86,59 @@ function calculateMarks() {
     resultStatusElement.textContent = isPass ? "PASS" : "FAIL";
 }
 
-
 // Calculate when teacher enters marks
 subjectInputs.forEach((input) => {
     input.addEventListener("input", calculateMarks);
 });
 
-
 // Reset calculated values
-document.getElementById("resetMarksBtn").addEventListener("click", () => {
-    setTimeout(() => {
-        totalMarksElement.textContent = "0 / 500";
-        averageMarksElement.textContent = "0.00";
-        percentageMarksElement.textContent = "0.00%";
-        resultStatusElement.textContent = "-";
-        marksMessage.textContent = "";
-        marksMessage.classList.remove("success");
-    }, 0);
-});
+const resetMarksBtn = document.getElementById("resetMarksBtn");
 
+if (resetMarksBtn) {
+    resetMarksBtn.addEventListener("click", () => {
+        setTimeout(() => {
+            totalMarksElement.textContent = "0 / 500";
+            averageMarksElement.textContent = "0.00";
+            percentageMarksElement.textContent = "0.00%";
+            resultStatusElement.textContent = "-";
+            marksMessage.textContent = "";
+            marksMessage.classList.remove("success");
+        }, 0);
+    });
+}
 
-// Save marks
-marksForm.addEventListener("submit", async (event) => {
+// Save marks to localStorage
+marksForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    const studentId = Number(studentSelect.value);
+
+    if (!studentId) {
+        marksMessage.textContent = "Please select a student.";
+        return;
+    }
+
+    const allMarksEntered = subjectInputs.every(
+        (input) => input.value !== ""
+    );
+
+    if (!allMarksEntered) {
+        marksMessage.textContent = "Please enter marks for all subjects.";
+        return;
+    }
+
     const marks = subjectInputs.map((input) => Number(input.value));
+
+    // Validate marks
+    const invalidMark = marks.some(
+        (mark) => mark < 0 || mark > 100
+    );
+
+    if (invalidMark) {
+        marksMessage.textContent =
+            "Marks must be between 0 and 100.";
+        return;
+    }
 
     const total = marks.reduce((sum, mark) => sum + mark, 0);
     const average = total / 5;
@@ -127,7 +148,27 @@ marksForm.addEventListener("submit", async (event) => {
         ? "PASS"
         : "FAIL";
 
+    // Grade calculation
+    let grade;
+
+    if (percentage >= 90) {
+        grade = "A+";
+    } else if (percentage >= 80) {
+        grade = "A";
+    } else if (percentage >= 70) {
+        grade = "B+";
+    } else if (percentage >= 60) {
+        grade = "B";
+    } else if (percentage >= 50) {
+        grade = "C";
+    } else if (percentage >= 35) {
+        grade = "D";
+    } else {
+        grade = "F";
+    }
+
     const marksData = {
+        studentId,
         subject1: marks[0],
         subject2: marks[1],
         subject3: marks[2],
@@ -136,45 +177,33 @@ marksForm.addEventListener("submit", async (event) => {
         total,
         average,
         percentage,
-        result
+        grade,
+        result,
+        updatedAt: new Date().toISOString()
     };
 
-    marksMessage.textContent = "";
-    marksMessage.classList.remove("success");
+    // Get existing marks
+    const allMarks = JSON.parse(localStorage.getItem("marks")) || [];
 
-    try {
-        const response = await fetch(
-            `/api/students/${studentSelect.value}/marks`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(marksData)
-            }
-        );
+    // Check whether marks already exist for this student
+    const existingIndex = allMarks.findIndex(
+        (item) => Number(item.studentId) === studentId
+    );
 
-        const data = await response.json();
-
-        if (response.ok) {
-            marksMessage.textContent =
-                data.message || "Marks saved successfully!";
-
-            marksMessage.classList.add("success");
-
-        } else {
-            marksMessage.textContent =
-                data.error || "Failed to save marks.";
-        }
-
-    } catch (error) {
-        console.error("Error saving marks:", error);
-
-        marksMessage.textContent =
-            "Unable to connect to the server.";
+    if (existingIndex !== -1) {
+        // Update existing marks
+        allMarks[existingIndex] = marksData;
+    } else {
+        // Add new marks
+        allMarks.push(marksData);
     }
-});
 
+    // Save marks
+    localStorage.setItem("marks", JSON.stringify(allMarks));
+
+    marksMessage.textContent = "Marks saved successfully!";
+    marksMessage.classList.add("success");
+});
 
 // Load students when page opens
 loadStudents();

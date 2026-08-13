@@ -3,76 +3,70 @@ if (sessionStorage.getItem("isLoggedIn") !== "true") {
     window.location.href = "login.html";
 }
 
-
 // Logout
 const logoutBtn = document.getElementById("logoutBtn");
 
-logoutBtn.addEventListener("click", () => {
-    sessionStorage.removeItem("isLoggedIn");
-    sessionStorage.removeItem("teacherName");
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+        sessionStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("teacherName");
 
-    window.location.href = "index.html";
-});
-
+        window.location.href = "index.html";
+    });
+}
 
 // Student form
 const studentForm = document.getElementById("studentForm");
 const studentMessage = document.getElementById("studentMessage");
 
-studentForm.addEventListener("submit", async (event) => {
+studentForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     // Get values from the form
     const studentData = {
+        id: Date.now(),
         name: document.getElementById("name").value.trim(),
-        usn: document.getElementById("usn").value.trim(),
+        usn: document.getElementById("usn").value.trim().toUpperCase(),
         email: document.getElementById("email").value.trim(),
         phone: document.getElementById("phone").value.trim(),
         course: document.getElementById("course").value.trim(),
         branch: document.getElementById("branch").value.trim(),
         semester: document.getElementById("semester").value.trim(),
-        section: document.getElementById("section").value.trim()
+        section: document.getElementById("section").value.trim().toUpperCase()
     };
 
     // Clear previous message
     studentMessage.textContent = "";
     studentMessage.classList.remove("success");
 
-    try {
-        const response = await fetch("/api/students", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(studentData)
-        });
+    // Get existing students
+    const students = JSON.parse(localStorage.getItem("students")) || [];
 
-        const data = await response.json();
+    // Check whether USN already exists
+    const existingStudent = students.find(
+        (student) => student.usn === studentData.usn
+    );
 
-        if (response.ok) {
-            studentMessage.textContent =
-                data.message || "Student added successfully!";
-
-            studentMessage.classList.add("success");
-
-            // Clear form after successful submission
-            studentForm.reset();
-
-            // Remove success message after 3 seconds
-            setTimeout(() => {
-                studentMessage.textContent = "";
-                studentMessage.classList.remove("success");
-            }, 3000);
-
-        } else {
-            studentMessage.textContent =
-                data.error || "Failed to add student.";
-        }
-
-    } catch (error) {
-        console.error("Error adding student:", error);
-
+    if (existingStudent) {
         studentMessage.textContent =
-            "Unable to connect to the server. Please try again.";
+            "A student with this USN already exists.";
+        return;
     }
+
+    // Save new student
+    students.push(studentData);
+    localStorage.setItem("students", JSON.stringify(students));
+
+    // Show success message
+    studentMessage.textContent = "Student added successfully!";
+    studentMessage.classList.add("success");
+
+    // Clear form
+    studentForm.reset();
+
+    // Remove message after 3 seconds
+    setTimeout(() => {
+        studentMessage.textContent = "";
+        studentMessage.classList.remove("success");
+    }, 3000);
 });
