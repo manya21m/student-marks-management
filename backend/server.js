@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
 
 // Connect and initialize the SQLite database
 require("./database");
@@ -10,7 +9,6 @@ const authRoutes = require("./routes/auth");
 const studentRoutes = require("./routes/students");
 
 const app = express();
-const PORT = 5000;
 
 // Middleware
 app.use(cors());
@@ -20,9 +18,6 @@ app.use(express.json());
 app.use("/api", authRoutes);
 app.use("/api/students", studentRoutes);
 
-// Serve frontend files
-app.use(express.static(path.join(__dirname, "../frontend")));
-
 // Test API route
 app.get("/api", (req, res) => {
     res.json({
@@ -30,12 +25,14 @@ app.get("/api", (req, res) => {
     });
 });
 
-// Open Home page
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/index.html"));
-});
+// Run locally only
+if (require.main === module) {
+    const PORT = process.env.PORT || 5000;
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
-});
+    app.listen(PORT, () => {
+        console.log(`Server is running at http://localhost:${PORT}`);
+    });
+}
+
+// Export app for Vercel
+module.exports = app;
